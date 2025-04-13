@@ -10,11 +10,19 @@ ENV ANDROID_SDK_ROOT /opt/android-sdk-linux
 ENV ANDROID_NDK_HOME /opt/android-ndk
 ENV ANDROID_NDK_VERSION r27c
 ENV ANDROID_NDK_URL=https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip
-ENV GOLANG_URL https://go.dev/dl/go1.24.2.linux-$(dpkg --print-architecture).tar.gz
+ENV GOLANG_VERSION 1.24.2
 
 # Dependencies to execute Android builds
 RUN apt-get update -qq
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-21-jdk-headless gcc wget curl git ca-certificates unzip
+
+RUN wget -O /tmp/golang.tar.gz "https://go.dev/dl/go1.24.2.linux-$(dpkg --print-architecture).tar.gz"
+RUN tar -C /usr/local -xzf /tmp/golang.tar.gz
+RUN rm /tmp/golang.tar.gz
+
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
 RUN cd /opt \
     && wget -q ${ANDROID_COMMANDLINE_URL} -O android-commandline-tools.zip \
@@ -52,15 +60,6 @@ RUN mkdir /opt/android-ndk-tmp && \
 
 # add to PATH
 ENV PATH ${PATH}:${ANDROID_NDK_HOME}
-
-RUN wget -O /tmp/golang.tar.gz ${GOLANG_URL}
-
-RUN tar -C /usr/local -xzf /tmp/golang.tar.gz
-RUN rm /tmp/golang.tar.gz
-
-ENV GOPATH /go
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
 RUN apt-get clean
 
