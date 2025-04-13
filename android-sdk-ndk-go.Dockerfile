@@ -10,7 +10,7 @@ ENV ANDROID_SDK_ROOT /opt/android-sdk-linux
 ENV ANDROID_NDK_HOME /opt/android-ndk
 ENV ANDROID_NDK_VERSION r27c
 ENV ANDROID_NDK_URL=https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip
-ENV GOLANG_URL https://go.dev/dl/go1.24.0.linux-amd64.tar.gz
+ENV GOLANG_URL https://go.dev/dl/go1.24.2.linux-$(dpkg --print-architecture).tar.gz
 
 # Dependencies to execute Android builds
 RUN apt-get update -qq
