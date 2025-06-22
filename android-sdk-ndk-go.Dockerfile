@@ -14,7 +14,7 @@ ENV GOLANG_VERSION 1.24.2
 
 # Dependencies to execute Android builds
 RUN apt-get update -qq
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-21-jdk-headless gcc wget curl git ca-certificates unzip
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-21-jdk-headless gcc wget curl git ca-certificates unzip upx
 
 RUN wget -O /tmp/golang.tar.gz "https://go.dev/dl/go1.24.2.linux-$(dpkg --print-architecture).tar.gz"
 RUN tar -C /usr/local -xzf /tmp/golang.tar.gz
