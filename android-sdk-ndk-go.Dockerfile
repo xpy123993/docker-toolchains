@@ -1,6 +1,6 @@
 FROM ubuntu:noble
 
-ENV GRADLE_VERSION 8.11.1
+ENV GRADLE_VERSION 8.14.3
 ENV GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 ENV ANDROID_COMMANDLINE_URL https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
 ENV ANDROID_HOME /opt/android-sdk-linux
@@ -8,15 +8,15 @@ ENV ANDROID_BUILDTOOLS_VERSION=35.0.1
 ENV ANDROID_SDK_PACKAGE_NAME "platforms;android-35"
 ENV ANDROID_SDK_ROOT /opt/android-sdk-linux
 ENV ANDROID_NDK_HOME /opt/android-ndk
-ENV ANDROID_NDK_VERSION r27c
+ENV ANDROID_NDK_VERSION r27d
 ENV ANDROID_NDK_URL=https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip
-ENV GOLANG_VERSION 1.24.2
+ENV GOLANG_VERSION 1.25.0
 
 # Dependencies to execute Android builds
 RUN apt-get update -qq
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-21-jdk-headless gcc wget curl git ca-certificates unzip upx
 
-RUN wget -O /tmp/golang.tar.gz "https://go.dev/dl/go1.24.2.linux-$(dpkg --print-architecture).tar.gz"
+RUN wget -O /tmp/golang.tar.gz "https://go.dev/dl/go${GOLANG_VERSION}.linux-$(dpkg --print-architecture).tar.gz"
 RUN tar -C /usr/local -xzf /tmp/golang.tar.gz
 RUN rm /tmp/golang.tar.gz
 
